@@ -21,85 +21,93 @@ class _Game2048State extends State<Game2048>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final side = min(size.width, size.height);
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text("swipe right"),
-          GestureDetector(
-            onHorizontalDragEnd: (DragEndDetails details) {
-              if (details.primaryVelocity > 0) {
-                animationController.forward();
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.all(12),
-              decoration: BoxDecoration(border: Border.all()),
-              width: side,
-              height: side,
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  MovingTile(
-                    -1,
-                    0.33,
-                    -1,
-                    -1,
-                    Colors.pink,
-                    animationController: animationController,
-                  ),
-                  MovingTile(
-                    0.33,
-                    1,
-                    -1,
-                    -1,
-                    Colors.orange,
-                    animationController: animationController,
-                  ),
-                  MovingTile(
-                    -0.33,
-                    0.33,
-                    -0.33,
-                    -0.33,
-                    Colors.yellow,
-                    animationController: animationController,
-                  ),
-                  MovingTile(
-                    1,
-                    1,
-                    -0.33,
-                    -0.33,
-                    Colors.deepPurple,
-                    animationController: animationController,
-                  ),
-                  MovingTile(
-                    -1,
-                    1,
-                    0.33,
-                    0.33,
-                    Colors.blue,
-                    animationController: animationController,
-                  ),
-                  MovingTile(
-                    0.33,
-                    1,
-                    1,
-                    1,
-                    Colors.red,
-                    animationController: animationController,
-                  ),
-                  AppearingTile(
-                    animationController,
-                    Alignment(-0.33, 0.33),
-                    Colors.green,
-                  ),
-                ],
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text("swipe right"),
+            GestureDetector(
+              onHorizontalDragEnd: (DragEndDetails details) {
+                if (details.primaryVelocity > 0) {
+                  animationController.forward();
+                }
+              },
+              child: OrientationBuilder(
+                builder: (context, orientation) {
+                  final size = MediaQuery.of(context).size;
+                  final side = min(size.width, size.height - 42);
+                  return Container(
+                    margin: EdgeInsets.all(12),
+                    decoration: BoxDecoration(border: Border.all()),
+                    width: side,
+                    height: side,
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        MovingTile(
+                          -1,
+                          0.33,
+                          -1,
+                          -1,
+                          Colors.pink,
+                          animationController: animationController,
+                        ),
+                        MovingTile(
+                          0.33,
+                          1,
+                          -1,
+                          -1,
+                          Colors.orange,
+                          animationController: animationController,
+                        ),
+                        MovingTile(
+                          -0.33,
+                          0.33,
+                          -0.33,
+                          -0.33,
+                          Colors.yellow,
+                          animationController: animationController,
+                        ),
+                        MovingTile(
+                          1,
+                          1,
+                          -0.33,
+                          -0.33,
+                          Colors.deepPurple,
+                          animationController: animationController,
+                        ),
+                        MovingTile(
+                          -1,
+                          1,
+                          0.33,
+                          0.33,
+                          Colors.blue,
+                          animationController: animationController,
+                        ),
+                        MovingTile(
+                          0.33,
+                          1,
+                          1,
+                          1,
+                          Colors.red,
+                          animationController: animationController,
+                        ),
+                        AppearingTile(
+                          animationController,
+                          Alignment(-0.33, 0.33),
+                          Colors.green,
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
